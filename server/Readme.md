@@ -1,14 +1,19 @@
-# Express server for event management service.
+# Eventos Server
 
+Eventos Server written with ExpressJS, Node, Javascript
+
+
+# Pre Deployment
 ```
-rename .env_example to .env
-assign secret key and DB_URL in .env.
+Rename .env_example to .env
+Assign secret key and DB_URL in .env.
 
-make uploads/ directory in root of server
+Make uploads/ directory in root of server
 ```
 
 Then you are good to go.
 
+# Deployment
 ```
 yarn install
 yarn start

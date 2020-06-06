@@ -11,6 +11,7 @@ require("dotenv").config();
 
 require("./middlewares/mongoose");
 const app = express();
+const HOST = process.env.HOST || "127.0.0.1"
 const PORT = 3001;
 
 app.use(morgan("dev"));
@@ -49,6 +50,6 @@ app.use((req, res, next) => {
 const HomeRoutes = require("./routes/home");
 app.use("/", HomeRoutes);
 
-app.listen(PORT, () => {
-  console.log(`server is running on https://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`server is running on http://${HOST}:${PORT}`);
 });
