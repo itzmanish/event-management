@@ -33,6 +33,15 @@ router.get("/events", (req, res) => {
     .catch((e) => console.log(e));
 });
 
+router.get("/me", (req, res) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err || info) {
+      return res.status(401).json(info);
+    }
+    res.status(200).json(user);
+  })(req, res);
+});
+
 // All GET request end
 
 // All POST request start
@@ -82,7 +91,7 @@ router.post("/login", async (req, res, next) => {
     async (err, user, info) => {
       try {
         if (err || !user) {
-          res.status(404).send(info);
+          return res.status(404).send(info);
         }
         req.login(user, { session: false }, async (error) => {
           if (error) {
@@ -113,6 +122,7 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     let body = _.pick(req.body, ["eventStatus"]);
+
     try {
       if (!ObjectID.isValid(req.params.id)) {
         return res.status(404).send("Invalid id of event");

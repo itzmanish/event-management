@@ -17,13 +17,13 @@ passport.use(
     async (token, done) => {
       try {
         // check for expiration of token
-        if (token.expires > Date.now()) {
-          return done(new Error("jwt expired"), null);
+        if (token.timestamp > Date.now()) {
+          return done(null, false, "jwt expired");
         }
         const user = await Users.findOne({ email: token.email });
 
         if (!user) {
-          return done(new Error("Token doesn't contain valid user"), null);
+          return done(null, false, "Token doesn't contain valid user");
         } else {
           return done(null, token);
         }
