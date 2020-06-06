@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "../utils";
 import Layout from "./layout";
 
 const AddEvent = () => {
@@ -10,35 +10,34 @@ const AddEvent = () => {
   const handleImageUpload = (e) => {
     setValues({
       ...values,
-      [e.target.name]: URL.createObjectURL(e.target.files[0]),
+      [e.target.name]: e.target.files[0],
     });
   };
+
+  // Need to send form data object beacuse of Boundry is automatic created by  browser
   const addEvent = async () => {
     try {
+      const formData = new FormData();
+      Object.entries(values).forEach((value) => {
+        formData.append(value[0], value[1]);
+      });
+
       const res = await fetch("/create-event", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+        body: formData,
       });
       const resData = await res.json();
       console.log({ res, resData });
 
       if (res.status === 201) {
         console.log(resData);
-        toast("Event Added", {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast("Event Added");
+        setValues({});
       } else {
-        toast(resData.message, {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast(resData.message);
       }
     } catch (error) {
-      toast(error.message, {
-        className: "flex rounded py-2 px-4 bg-black mb-2",
-      });
+      Toast(error.message);
     }
   };
   return (
@@ -132,7 +131,7 @@ const AddEvent = () => {
               />
               {values.eventPicture && (
                 <p className="text-gray-600 text-xs italic">
-                  {values.eventPicture}
+                  {values.eventPicture.name}
                 </p>
               )}
             </label>

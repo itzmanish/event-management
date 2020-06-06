@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "../utils";
 import { UserContext } from "../contexts/UserProvider";
 
 const Event = ({ event, updateData }) => {
@@ -25,14 +25,10 @@ const Event = ({ event, updateData }) => {
         }
       } catch (error) {
         console.log(error);
-        toast(error.message, {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast(error.message);
       }
     } else {
-      toast("You need to login before changing event status.", {
-        className: "flex rounded py-2 px-4 bg-black mb-2",
-      });
+      Toast("You need to login before changing event status.");
     }
   };
 
@@ -48,7 +44,7 @@ const Event = ({ event, updateData }) => {
       />
       <div className="flex flex-col text-gray-800 mx-2 lg:py-2 py-4">
         <div className="flex-row text-xs text-gray-600 flex">
-          <div className="mr-2">{event.event_type}</div>
+          <div className="mr-2 text-indigo-500">{event.event_type}</div>
           <div className="border-l border-black pl-2">
             {date.toLocaleString("en-IN").toString()}
           </div>

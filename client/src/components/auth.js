@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "../utils";
 import classname from "classnames";
 import Layout from "./layout";
 import { UserContext } from "../contexts/UserProvider";
@@ -25,24 +25,18 @@ const Auth = () => {
         method: "POST",
         body: JSON.stringify(values),
       });
+      const resData = await res.json();
       if (res.status === 200) {
-        const resData = await res.json();
         localStorage.setItem("token", resData.token);
         setUser({ email: values.email });
         setIsLoggedIn(true);
-        toast("You are logged in.", {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast("You are logged in.");
       } else {
         setError("Email or password is wrong!");
-        toast("Email or password is wrong!", {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast("Email or password is wrong!");
       }
     } catch (error) {
-      toast(JSON.stringify(error), {
-        className: "flex rounded py-2 px-4 bg-black mb-2",
-      });
+      Toast(error.message);
       console.error(error);
     }
   };
@@ -59,21 +53,18 @@ const Auth = () => {
         fetchLogin();
       } else if (res.status === 409) {
         const resData = await res.json();
-        console.log(JSON.parse(resData));
+        console.log(resData);
 
-        setError(JSON.parse(resData).message);
-        toast(JSON.parse(resData).message, {
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        setError(resData.message);
+        Toast(resData.message);
       }
     } catch (error) {
-      toast(JSON.stringify(error), {
-        className: "flex rounded py-2 px-4 bg-black mb-2",
-      });
+      Toast(error.message);
       console.error(error);
     }
   };
-  const doLogin = async () => {
+  const doLogin = async (e) => {
+    e.preventDefault();
     if (loginActive) {
       fetchLogin();
     } else {
@@ -113,7 +104,7 @@ const Auth = () => {
             Signup
           </span>
         </div>
-        <form>
+        <form onSubmit={doLogin}>
           <div className="md:flex md:items-center mb-8">
             <div className="md:w-1/3">
               <label
@@ -167,13 +158,12 @@ const Auth = () => {
           <div className="md:flex md:items-center">
             <div className="md:w-1/3"></div>
             <div className="md:w-2/3">
-              <button
+              <input
                 onClick={doLogin}
-                className="bg-black text-white text-center py-2 px-4 rounded focus:outline-none"
-                type="button"
-              >
-                {loginActive ? "Login" : "Signup"}
-              </button>
+                className="cursor-pointer bg-black text-white text-center py-2 px-4 rounded focus:outline-none"
+                type="submit"
+                value={loginActive ? "Login" : "Signup"}
+              />
             </div>
           </div>
         </form>

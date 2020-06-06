@@ -58,7 +58,7 @@ router.post(
     ]);
 
     try {
-      const doc = await Events.findOne({ eventTitle: body.event_title });
+      const doc = await Events.findOne({ eventTitle: body.eventTitle });
       if (doc) {
         return res.send("This event already exist");
       }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Event from "./event";
 const Events = ({ events, updateData }) => {
   return (

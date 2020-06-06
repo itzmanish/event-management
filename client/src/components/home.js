@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { Toast } from "../utils";
 import Events from "./events";
 import Layout from "./layout";
 
@@ -22,13 +22,11 @@ const Home = () => {
         );
         setActiveEvents(jsonData);
         setWaitlistEvents(waitlistData);
-        toast("All Events loaded!", {
-          position: toast.POSITION.TOP_LEFT,
-          className: "flex rounded py-2 px-4 bg-black mb-2",
-        });
+        Toast("All Events loaded!");
       }
     } catch (err) {
       console.log(err);
+      Toast(err.message);
     }
   }
 

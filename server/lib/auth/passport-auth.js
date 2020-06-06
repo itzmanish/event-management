@@ -17,7 +17,7 @@ passport.use(
         const user = await Users.findOne({ email });
         // check to see if theres already a user with that email
         if (user) {
-          return done(null, false, "That email is already taken.");
+          return done(null, false, { message: "This email is already taken." });
         } else {
           // if there is no user with that email
           // create the user
@@ -31,7 +31,7 @@ passport.use(
           return done(null, userData);
         }
       } catch (error) {
-        done(null, false, JSON.stringify(error));
+        done(null, false, error);
       }
     }
   )
