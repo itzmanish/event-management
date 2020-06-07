@@ -10,6 +10,10 @@ Eventos allow users to add event in board and allows logged in users to approved
 > If you want to build then use exact url path of server and replace url on all fetch request.
 
 * [x] Toast notification
+* [x] Add Event
+* [x] Approve / Draft event by just clicking the event.
+* [x] Login / Register with JWT token.
+* [x] Global user management with Context Api.
 * [ ] Add Loader and disable button on adding event and login/register
 
 Any Issue/Pull Request are appriciated.
